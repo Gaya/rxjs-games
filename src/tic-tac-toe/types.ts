@@ -4,8 +4,8 @@ export interface PlayerInput {
 }
 
 export enum Player {
-  x,
-  o,
+  x = 'X',
+  o = 'O',
 }
 
 export interface Game {
