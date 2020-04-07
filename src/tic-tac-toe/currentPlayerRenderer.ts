@@ -1,9 +1,5 @@
 import { Player } from './types';
 
-function playerName(player: Player): string {
-  return player === Player.x ? 'X' : 'O';
-}
-
 function playerColor(player: Player): string {
   return player === Player.x ? 'blue' : 'red';
 }
@@ -22,7 +18,7 @@ function createCurrentPlayerRenderer(): (player: Player) => void {
 
   return function renderCurrentPlayer(player: Player): void {
     currentPlayerDOM.style.color = playerColor(player);
-    currentPlayerDOM.innerHTML = `Current player is ${playerName(player)}`;
+    currentPlayerDOM.innerHTML = `Current player is ${player}`;
   };
 }
 

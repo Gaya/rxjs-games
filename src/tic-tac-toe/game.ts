@@ -102,9 +102,7 @@ export function createGame(input$: Observable<PlayerInput>): BehaviorSubject<Gam
       // update game state
       tap((state) => game$.next(state)),
     )
-    .subscribe((state) => {
-      console.log(state);
-    });
+    .subscribe();
 
   return game$;
 }
