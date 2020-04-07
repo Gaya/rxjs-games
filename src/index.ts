@@ -1,3 +1,3 @@
-import something from './something';
+import tickTackToe from './tic-tac-toe';
 
-console.log(something);
+tickTackToe();
