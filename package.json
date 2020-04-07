@@ -43,5 +43,8 @@
       ],
       "@babel/preset-typescript"
     ]
+  },
+  "dependencies": {
+    "rxjs": "^6.5.5"
   }
 }
