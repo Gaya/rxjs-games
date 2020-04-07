@@ -1,27 +1,19 @@
-import useBoard from './board';
-import createRenderer from './renderer';
-import clicks$ from './clicks';
+import { tap } from 'rxjs/internal/operators/tap';
 
-import { Board } from './types';
-
-const defaultBoard: Board = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-];
+import { createGame } from './game';
+import createBoardRenderer from './boardRenderer';
+import createCurrentPlayerRenderer from './currentPlayerRenderer';
+import input$ from './input';
 
 function startTicTacToe(): void {
-  const [board$, updateBoard] = useBoard();
+  const currentPlayerRenderer = createCurrentPlayerRenderer();
+  const boardRenderer = createBoardRenderer();
+  const game$ = createGame(input$);
 
-  board$.subscribe(createRenderer());
-
-  clicks$
-    .subscribe((position) => {
-      console.log(position);
-    });
-
-  // initial game start
-  updateBoard(defaultBoard);
+  game$.pipe(
+    tap((state) => currentPlayerRenderer(state.current)),
+    tap((state) => boardRenderer(state.board)),
+  ).subscribe();
 }
 
 export default startTicTacToe;

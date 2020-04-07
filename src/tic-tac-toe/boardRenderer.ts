@@ -60,6 +60,10 @@ function createRenderer(): (board: Board) => void {
   }
 
   return function renderBoard(board: Board): void {
+    while (boardDOM.hasChildNodes()) {
+      boardDOM.removeChild(boardDOM.lastChild);
+    }
+
     for (let y = 0; y < 3; y += 1) {
       boardDOM.appendChild(createRow(y, board[y]));
     }
