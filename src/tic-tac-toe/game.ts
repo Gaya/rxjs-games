@@ -65,16 +65,25 @@ export function whoWon(board: Board): Player | undefined {
   return undefined;
 }
 
+export function gameEnded(board: Board): boolean {
+  const winner = whoWon(board);
+
+  if (winner) return true;
+
+  // check if no empty tile left
+  return board.every((row) => row.every((c) => c !== Tile.empty));
+}
+
 function newGameByInput(state: Game, input: PlayerInput): Game {
   const board: Board = [state.board[0], state.board[1], state.board[2]];
 
   board[input.y][input.x] = playerToTile(state.current);
 
   const winner = whoWon(board);
-  const gameEnd = !!winner;
+  const hasWinner = !!winner;
 
   return {
-    current: gameEnd ? state.current : nextCurrentPlayer(state.current),
+    current: hasWinner ? state.current : nextCurrentPlayer(state.current),
     board,
   };
 }
@@ -89,12 +98,14 @@ function newGame(): Game {
 export function createGame(input$: Observable<PlayerInput>): BehaviorSubject<Game> {
   const game$ = new BehaviorSubject<Game>(newGame());
 
-  // handle playing input
-  input$
+  const gameInputs$ = input$
+    .pipe(withLatestFrom(game$));
+
+  // handle player turns
+  gameInputs$
     .pipe(
-      withLatestFrom(game$),
-      // nobody won
-      filter(([, state]) => whoWon(state.board) === undefined),
+      // game didn't end yet
+      filter(([, state]) => !gameEnded(state.board)),
       // tile clicked on is empty
       filter(([input, state]) => isTileEmpty(state.board, input)),
       // calculate new game state

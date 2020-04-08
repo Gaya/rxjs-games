@@ -12,8 +12,10 @@ function createWinnerRenderer(): (player: Player) => void {
     document.body.appendChild(winnerDOM);
   }
 
-  return function renderBoard(winner: Player): void {
-    winnerDOM.innerText = `Player ${winner} won the game!`;
+  return function renderBoard(winner?: Player): void {
+    const winnerText = winner ? `Player ${winner} won the game!` : 'Nobody won.';
+
+    winnerDOM.innerText = `${winnerText} Refresh to start over`;
   };
 }
 

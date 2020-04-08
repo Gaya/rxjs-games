@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { PlayerInput } from './types';
 
 function getPosition(element: HTMLElement): number {
-  return Array.from(element.parentNode.childNodes).indexOf(element);
+  return element.parentNode ? Array.from(element.parentNode.childNodes).indexOf(element) : 0;
 }
 
 const input$: Observable<PlayerInput> = fromEvent(document, 'click')

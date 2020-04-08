@@ -1,7 +1,7 @@
 import { tap } from 'rxjs/internal/operators/tap';
 import { filter } from 'rxjs/internal/operators/filter';
 
-import { createGame, whoWon } from './game';
+import { createGame, gameEnded, whoWon } from './game';
 import createBoardRenderer from './boardRenderer';
 import createCurrentPlayerRenderer from './currentPlayerRenderer';
 import createWinnerRenderer from './winnerRenderer';
@@ -16,8 +16,8 @@ function startTicTacToe(): void {
   game$.pipe(
     tap((state) => currentPlayerRenderer(state.current)),
     tap((state) => boardRenderer(state.board)),
-    filter((state) => !!whoWon(state.board)),
-    tap((state) => winnerRenderer(state.current)),
+    filter((state) => gameEnded(state.board)),
+    tap((state) => winnerRenderer(whoWon(state.board))),
   ).subscribe();
 }
 
