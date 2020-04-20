@@ -1,3 +1,9 @@
-import tickTackToe from './tic-tac-toe';
+import { addRoute, renderPage } from './router';
+import home from './home';
 
-tickTackToe();
+import ticTacToe from './tic-tac-toe';
+
+addRoute('/', home);
+addRoute('/tictactoe', ticTacToe);
+
+renderPage();

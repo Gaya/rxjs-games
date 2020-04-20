@@ -1,4 +1,5 @@
 import { Board, Tile, TileRow } from './types';
+import { clearChildren } from '../helpers';
 
 function createTile(tileState: Tile, x: number, y: number): HTMLTableCellElement {
   const tile = document.createElement('td');
@@ -60,9 +61,7 @@ function createRenderer(): (board: Board) => void {
   }
 
   return function renderBoard(board: Board): void {
-    while (boardDOM.hasChildNodes()) {
-      boardDOM.removeChild(boardDOM.lastChild);
-    }
+    clearChildren(boardDOM);
 
     for (let y = 0; y < 3; y += 1) {
       boardDOM.appendChild(createRow(y, board[y]));
